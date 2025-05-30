@@ -1,0 +1,116 @@
+= ActiveSupport::Cache::ZstdCompressor
+
+A blazing-fast https://facebook.github.io/zstd/[Zstandard] compressor for
+`ActiveSupport::Cache`. Built for developers who appreciate both performance
+and the finer things in life, like not waiting forever for cache operations.
+
+🚀 Blazing Speed:: Decompression speeds that make LZ4 look sleepy.
+🎯 Excellent Ratios:: Better compression than gzip with less CPU drama.
+⚡ Tunable Performance:: 30 compression levels from "ludicrous speed" to "maximum squeeze".
+🧠 Smart Memory Usage:: Uses modern amounts of RAM because it's not 1995 anymore.
+
+
+== Installation
+
+Install the gem and add to the application's Gemfile by executing:
+
+[source,bash]
+----
+bundle add activesupport-cache-zstd_compressor
+----
+
+If bundler is not being used to manage dependencies, install the gem by executing:
+
+[source,bash]
+----
+gem install activesupport-cache-zstd_compressor
+----
+
+
+== Usage
+
+[source,ruby]
+----
+Rails.application.configure do
+  config.cache_store = :redis_cache_store, {
+  url:        ENV["REDIS_URL"],
+  compress:   true,
+  compressor: ActiveSupport::Cache::ZstdCompressor.new
+}
+----
+
+By default, it uses compression level `3`, but you can easily tweak it:
+
+[source,ruby]
+----
+Rails.application.configure do
+  config.cache_store = :redis_cache_store, {
+  url:        ENV["REDIS_URL"],
+  compress:   true,
+  compressor: ActiveSupport::Cache::ZstdCompressor.new(level: 6)
+}
+----
+
+
+=== Migrating from Rails default compressor (Zlib)
+
+TIP: Perfect for production environments where cache invalidation is not an option.
+
+[source,ruby]
+----
+Rails.application.configure do
+  config.cache_store = :redis_cache_store, {
+  url:        ENV["REDIS_URL"],
+  compress:   true,
+  compressor: ActiveSupport::Cache::ZstdCompressor::WithZlibFallback.new
+}
+----
+
+How it works::
+. 🔍 Detects compressed data format by magic number
+. 📖 Reads existing Zlib-compressed cache entries seamlessly
+. ✍️ Writes all new entries using superior Zstd compression
+
+
+== Compatibility
+
+This library aims to support and is tested against:
+
+* https://www.ruby-lang.org[Ruby]
+** MRI 3.2.x
+** MRI 3.3.x
+** MRI 3.4.x
+
+* https://https://rubygems.org/gems/activesupport[ActiveSupport]
+** 7.1.x
+** 7.2.x
+** 8.0.x
+
+If something doesn't work on one of these versions, it's a bug.
+
+This library may inadvertently work (or seem to work) on other Ruby versions,
+however support will only be provided for the versions listed above.
+
+
+== Development
+
+[source,bash]
+----
+bundle install
+bundle exec rake
+----
+
+
+== Contributing
+
+* Fork activesupport-cache-zstd_compressor
+* Make your changes
+* Ensure all tests pass (`bundle exec rake`)
+* Send a merge request
+* If we like them we'll merge them
+* If we've accepted a patch, feel free to ask for commit access!
+
+
+== Acknowledgements
+
+This library is inspired by https://github.com/pawurb/rails-brotli-cache
