@@ -1,16 +1,14 @@
 # frozen_string_literal: true
 
 require "active_support/cache"
-require "zeitwerk"
 require "zstd-ruby"
+
+require_relative "./zstd_compressor/with_zlib_fallback"
+require_relative "./zstd_compressor/version"
 
 module ActiveSupport
   module Cache
     class ZstdCompressor
-      Loader = Zeitwerk::Loader.for_gem_extension(ActiveSupport::Cache)
-
-      Loader.setup
-
       # @return [Integer] Compression level
       attr_reader :level
 

@@ -2,9 +2,6 @@
 
 require "activesupport-cache-zstd_compressor"
 
-# Ensure project struture and Zeitwerk ara correct
-ActiveSupport::Cache::ZstdCompressor::Loader.eager_load(force: true)
-
 require "active_support/cache"
 require "active_support/notifications"
 
