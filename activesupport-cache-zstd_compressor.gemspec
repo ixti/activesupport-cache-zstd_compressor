@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.files = IO.popen(%w[git ls-files -z], chdir: __dir__, err: IO::NULL) do |ls|
     extras = %w[CHANGES.md LICENSE.txt README.adoc] << File.basename(__FILE__)
 
-    ls.readlines("\x0", chomp: true).reject do |f|
+    ls.readlines("\x0", chomp: true).select do |f|
       f.start_with?("lib/") || extras.include?(f)
     end
   end
