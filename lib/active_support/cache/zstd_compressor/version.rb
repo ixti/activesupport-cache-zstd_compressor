@@ -3,7 +3,7 @@
 module ActiveSupport
   module Cache
     class ZstdCompressor
-      VERSION = "0.1.1"
+      VERSION = "0.1.2"
     end
   end
 end
