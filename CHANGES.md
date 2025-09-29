@@ -1,6 +1,14 @@
 ## [Unreleased]
 
+## [0.2.0] - 2025-09-29
+
+### Added
+
+- Support zstd-ruby 2.0
+
 ## [0.1.2] - 2025-05-31
+
+### Changed
 
 - Remove Zeitwerk loader.
 

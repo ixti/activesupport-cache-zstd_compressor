@@ -23,7 +23,7 @@ RSpec.describe ActiveSupport::Cache::ZstdCompressor::WithZlibFallback do
     expect(cache.read("example")).to eq({ food_for_thought: FOOD_FOR_THOUGHT })
   end
 
-  it "works with with Zlib legacy compressor nicely" do
+  it "works with with Zlib enforced compressor nicely" do
     compressor = described_class.new
     serializer = Marshal
     old_cache  = ActiveSupport::Cache.lookup_store(:memory_store, serializer:, compress: true)
@@ -34,5 +34,18 @@ RSpec.describe ActiveSupport::Cache::ZstdCompressor::WithZlibFallback do
     new_cache.instance_variable_set(:@data, old_cache.instance_variable_get(:@data))
 
     expect(new_cache.read("example")).to eq({ food_for_thought: FOOD_FOR_THOUGHT })
+  end
+
+  it "works with with Zlib auto compressor nicely" do
+    compressor = described_class.new
+    serializer = Marshal
+    old_cache  = ActiveSupport::Cache.lookup_store(:memory_store, serializer:)
+    new_cache  = ActiveSupport::Cache.lookup_store(:memory_store, serializer:, compressor:, compress: true)
+
+    old_cache.write("example", { food_for_thought: "not gonna be compressed" })
+
+    new_cache.instance_variable_set(:@data, old_cache.instance_variable_get(:@data))
+
+    expect(new_cache.read("example")).to eq({ food_for_thought: "not gonna be compressed" })
   end
 end

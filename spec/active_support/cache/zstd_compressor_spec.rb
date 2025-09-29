@@ -7,7 +7,7 @@ RSpec.describe ActiveSupport::Cache::ZstdCompressor do
     describe "#inflate" do
       it "is uncapable of inflating data compressed with Zlib" do
         expect { compressor.inflate(Zlib.deflate(FOOD_FOR_THOUGHT)) }
-          .to raise_error(%r{not compressed by zstd})
+          .to raise_error(ActiveSupport::Cache::ZstdCompressor::NotZstdError)
       end
     end
   end

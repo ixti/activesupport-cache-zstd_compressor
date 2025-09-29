@@ -3,7 +3,8 @@
 module ActiveSupport
   module Cache
     class ZstdCompressor
-      VERSION = "0.2.0"
+      class Error < StandardError; end
+      class NotZstdError < Error; end
     end
   end
 end
