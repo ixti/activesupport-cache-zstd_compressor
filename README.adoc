@@ -82,9 +82,12 @@ This library aims to support and is tested against:
 ** MRI 3.4.x
 
 * https://https://rubygems.org/gems/activesupport[ActiveSupport]
-** 7.1.x
 ** 7.2.x
 ** 8.0.x
+
+* https://github.com/SpringMT/zstd-ruby[zstd-ruby]
+** 1.5.x
+** 2.0.x
 
 If something doesn't work on one of these versions, it's a bug.
 
